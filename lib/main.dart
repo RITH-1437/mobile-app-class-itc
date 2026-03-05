@@ -1,6 +1,70 @@
 import 'package:flutter/material.dart';
 
-void main() {
+class Student {
+  String name;
+  double? gpa;
+  int year;
+
+  Student(this.name, this.gpa, this.year);
+
+  Student.unknown() : name = 'Unknown', gpa = null, year = 1;
+
+  String status() {
+    return gpa != null ? 'GPA: $gpa' : 'GPA: not available';
+  }
+}
+
+Map<String, int> optimization(List<int> num) {
+  if (num.isEmpty) {
+    return {'Sum': 0, 'Min': 0, 'Max': 0};
+  }
+  int sum = num.reduce((a, b) => a + b);
+  int max = num.reduce((a, b) => a > b ? a : b);
+  int min = num.reduce((a, b) => a < b ? a : b);
+  return {'Sum': sum, 'Min': min, 'Max': max};
+}
+
+// Exercise 3: Async function to fetch grades
+Future<List<int>> fetchGrades() async {
+  // Simulate a 2-second network delay
+  await Future.delayed(Duration(seconds: 2));
+  // Return the list of grades
+  return [85, 92, 78, 95, 88];
+}
+
+void main() async {
+  var stu1 = Student('Nairith Rin', 4.0, 4);
+  var stu2 = Student.unknown();
+  var stu3 = Student('Bob', null, 3);
+
+  print('\n--- Exercise 1: Classes & Objects ---\n');
+  print('${stu1.name}: ${stu1.status()} : Year ${stu1.year}');
+  print('${stu2.name}: ${stu2.status()} : Year ${stu2.year}');
+  print('${stu3.name}: ${stu3.status()} : Year ${stu3.year}');
+
+  // Exercise 2: Test analyzeNumbers function
+  print('\n--- Exercise 2: Collections & Functions ---\n');
+  var num = [1, 2, 3, 4, 5];
+  var result = optimization(num);
+  print('Numbers: $num');
+  print('Sum: ${result['Sum']}');
+  print('Min: ${result['Min']}');
+  print('Max: ${result['Max']}');
+
+  // Exercise 3: Async Practice
+  print('\n--- Exercise 3: Async Practice ---\n');
+  print('Fetching grades...');
+  try {
+    List<int> grades = await fetchGrades();
+    print('Grades: $grades');
+
+    // Calculate average
+    double average = grades.reduce((a, b) => a + b) / grades.length;
+    print('Average Grade: ${average.toStringAsFixed(2)}');
+  } catch (e) {
+    print('Error fetching grades: $e');
+  }
+
   runApp(const MyApp());
 }
 
@@ -11,23 +75,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Lab02',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
       home: const MyHomePage(title: 'Nairith Rin'),
@@ -37,15 +86,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -58,31 +98,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
@@ -90,11 +114,15 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.flutter_dash, size: 80, color: Colors.blue),
-            const SizedBox(height: 16),               // Vertical spacing
-            const Text('Flutter is awesome!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            const Text('Week 1 - Getting Started',
-              style: TextStyle(color: Colors.grey)),
+            const SizedBox(height: 16), // Vertical spacing
+            const Text(
+              'Flutter is awesome!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              'Week 1 - Getting Started',
+              style: TextStyle(color: Colors.grey),
+            ),
           ],
         ),
       ),
